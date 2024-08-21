@@ -2,4 +2,8 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
-return {}
+return {
+  'debugloop/telescope-undo.nvim',
+  'EdenEast/nightfox.nvim',
+  'max397574/better-escape.nvim',
+}
