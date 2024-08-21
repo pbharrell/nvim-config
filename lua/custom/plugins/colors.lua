@@ -1,10 +1,3 @@
---function ColorMyPencils(color)
---  color = color or 'terafox'
---  vim.cmd.colorscheme 'terafox'
---end
---
---ColorMyPencils()
-
 return { -- You can easily change to a different colorscheme.
   -- Change the name of the colorscheme plugin below, and then
   -- change the command in the config to whatever the name of that colorscheme is.
