@@ -77,5 +77,3 @@ vim.keymap.set('x', 'p', function()
   return 'pgv"' .. vim.v.register .. 'y'
 end, { remap = false, expr = true })
 
--- Using default mappings for this - https://github.com/max397574/better-escape.nvim
-require('better_escape').setup()
