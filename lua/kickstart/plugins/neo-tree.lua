@@ -11,14 +11,37 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal' },
+    { '<leader>t', ':Neotree toggle<CR>', desc = 'Neotree toggle' },
+    { '<leader>tb', ':Neotree buffers toggle<CR>', desc = 'Neotree open buffers toggle' },
+    {
+      '<leader>tr',
+      ':Neotree dir=',
+      -- function()
+      --   vim.ui.input({ prompt = 'Enter new Neotree root directory: ' }, function(input)
+      --     if input then
+      --       -- Run the Neotree command with the specified directory
+      --       vim.cmd('Neotree dir=' .. input)
+      --     end
+      --   end)
+      -- end,
+      desc = 'Neotree change root directory',
+    },
+
+    { '<leader>gv', ':Neotree float git_status toggle<CR>', desc = 'Git status [v]iew' },
   },
   opts = {
     filesystem = {
       window = {
         mappings = {
-          ['\\'] = 'close_window',
+          ['P'] = { 'toggle_preview', config = { use_float = false, use_image_nvim = true } },
         },
+      },
+      follow_current_file = {
+        enabled = true, -- This will find and focus the file in the active buffer every time
+        --               -- the current file is changed while the tree is open.
+        leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+        hijack_netrw_behavior = 'open_default', -- This ensures Neo-tree opens in place of netrw
+        use_libuv_file_watcher = true, -- Optional: Automatically updates Neo-tree when files change
       },
     },
   },

@@ -27,9 +27,9 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 --
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<leader>h', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<leader>l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<leader>j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<leader>k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<leader>l', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<leader>j', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<leader>k', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -72,13 +72,10 @@ vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 
 -- keep values of registers unchanged with x and X
 vim.keymap.set({ 'n', 'x' }, 'x', '"_x')
-vim.keymap.set({ 'n', 'x' }, 'X', '"_d')
+vim.keymap.set({ 'n', 'x' }, 'X', '"_dd')
 vim.keymap.set('x', 'p', function()
   return 'pgv"' .. vim.v.register .. 'y'
 end, { remap = false, expr = true })
-
-vim.keymap.set({ 'n' }, '<leader>h', '<C-w>h')
-vim.keymap.set({ 'n' }, '<leader>l', '<C-w>l')
 
 -- Using default mappings for this - https://github.com/max397574/better-escape.nvim
 require('better_escape').setup()
