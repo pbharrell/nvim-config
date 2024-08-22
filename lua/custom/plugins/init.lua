@@ -7,5 +7,7 @@ return {
   'EdenEast/nightfox.nvim',
   'max397574/better-escape.nvim',
   -- Using default mappings for this - https://github.com/max397574/better-escape.nvim
-  config = { require('better_escape').setup() },
+  config = function () 
+    require('better_escape').setup()
+    end,
 }
