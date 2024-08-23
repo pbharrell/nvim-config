@@ -11,8 +11,8 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '<leader>t', ':Neotree toggle<CR>', desc = 'Neotree toggle' },
-    { '<leader>tb', ':Neotree buffers toggle<CR>', desc = 'Neotree open buffers toggle' },
+    { '<leader>t', ':Neotree toggle<CR>', desc = 'Neotree [T]oggle' },
+    { '<leader>to', ':Neotree buffers float reveal<CR>', desc = 'Neotree [O]pen buffers toggle' },
     {
       '<leader>tr',
       ':Neotree dir=',

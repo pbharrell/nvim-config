@@ -28,6 +28,39 @@ return {
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
+
+      -- Loading navbuddy at the right time
+      {
+        'SmiteshP/nvim-navbuddy',
+        dependencies = {
+          {
+            'SmiteshP/nvim-navic',
+            config = function()
+              require('nvim-navic').setup { lsp = { auto_attach = true } }
+              vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+            end,
+            -- opts = { lsp = { auto_attach = true } },
+          },
+          'MunifTanjim/nui.nvim',
+        },
+        config = function()
+          require('nvim-navbuddy').setup {
+            lsp = { auto_attach = true },
+            window = {
+              size = '80%',
+              sections = {
+                left = {
+                  size = '20%',
+                },
+                mid = {
+                  size = '20%',
+                },
+              },
+            },
+          }
+          vim.keymap.set('n', '<leader>n', '<cmd>Navbuddy<CR>', { desc = '[N]avbuddy open' })
+        end,
+      },
     },
     config = function()
       -- Brief aside: **What is LSP?**

@@ -3,11 +3,24 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  'debugloop/telescope-undo.nvim',
-  'EdenEast/nightfox.nvim',
-  'max397574/better-escape.nvim',
-  -- Using default mappings for this - https://github.com/max397574/better-escape.nvim
-  config = function () 
-    require('better_escape').setup()
+  { 'EdenEast/nightfox.nvim' },
+  {
+    'max397574/better-escape.nvim',
+    -- Using default mappings for this - https://github.com/max397574/better-escape.nvim
+    config = true,
+  },
+  {
+    'tamton-aquib/duck.nvim',
+    config = function()
+      vim.keymap.set('n', '<leader>dd', function()
+        require('duck').hatch()
+      end, { desc = '[D]uck hatch' })
+      vim.keymap.set('n', '<leader>dc', function()
+        require('duck').cook()
+      end, { desc = 'Duck [C]ook' })
+      vim.keymap.set('n', '<leader>da', function()
+        require('duck').cook_all()
+      end, { desc = 'Duck cook [A]ll' })
     end,
+  },
 }

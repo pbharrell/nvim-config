@@ -27,7 +27,7 @@ return {
         :find()
     end
 
-    vim.keymap.set('n', '<C-e>', function()
+    vim.keymap.set({ 'n', 'i' }, '<C-e>', function()
       toggle_telescope(harpoon:list())
     end, { desc = 'harpoon window' })
     vim.keymap.set('n', '<leader>e', function()
@@ -37,16 +37,16 @@ return {
       harpoon:list():add()
     end, { desc = 'harpoon add' })
 
-    vim.keymap.set('n', '<C-h>', function()
+    vim.keymap.set({ 'n', 'i' }, '<C-h>', function()
       harpoon:list():select(1)
     end)
-    vim.keymap.set('n', '<C-j>', function()
+    vim.keymap.set({ 'n', 'i' }, '<C-j>', function()
       harpoon:list():select(2)
     end)
-    vim.keymap.set('n', '<C-k>', function()
+    vim.keymap.set({ 'n', 'i' }, '<C-k>', function()
       harpoon:list():select(3)
     end)
-    vim.keymap.set('n', '<C-l>', function()
+    vim.keymap.set({ 'n', 'i' }, '<C-l>', function()
       harpoon:list():select(4)
     end)
 
