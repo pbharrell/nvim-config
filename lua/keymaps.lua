@@ -59,10 +59,8 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 vim.keymap.set('n', 'Q', '<nop>')
 
--- vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], {
---   desc = 'replace under cursor',
--- })
 vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
+vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<CR>', { desc = '[T]ab [C]lose' })
 
 -- keep values of registers unchanged with x and X
 vim.keymap.set({ 'n', 'x' }, 'x', '"_x')
