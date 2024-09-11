@@ -16,15 +16,8 @@ return {
   keys = {
     { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
   },
-
-  -- -- pass through <Esc> to lazygit when that is open
-  -- config = function()
-  --   vim.keymap.set('t', '<Esc>', function()
-  --     if vim.bo.filetype == 'lazygit' then
-  --       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', true)
-  --     else
-  --       vim.cmd 'stopinsert'
-  --     end
-  --   end, { noremap = true, silent = true })
-  -- end,
+  config = function()
+    require('telescope').load_extension 'lazygit'
+    vim.g.lazygit_floating_window_scaling_factor = 0.93
+  end,
 }
