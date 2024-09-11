@@ -93,7 +93,7 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
-    -- Install golang specific config
+    -- Install golang specific config (Kickstart.nvim default)
     require('dap-go').setup {
       delve = {
         -- On Windows delve must be run attached or it crashes.
@@ -101,5 +101,34 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- C/C++ debugger setup
+    -- Source: https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(gdb-via--vscode-cpptools)
+    -- I have found poor debug speed when using this one in WSL, using gdb instead
+    dap.adapters.cppdbg = {
+      id = 'cppdbg',
+      type = 'executable',
+      command = '/home/harrellpresto/.vscode-server/extensions/ms-vscode.cpptools-1.21.6/debugAdapters/bin/OpenDebugAD7',
+    }
+    dap.adapters.gdb = {
+      type = 'executable',
+      command = 'gdb',
+      args = { '--interpreter=dap', '--eval-command', 'set print pretty on' },
+    }
+    dap.configurations.cpp = {
+      {
+        name = 'Launch file',
+        type = 'gdb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        -- stopAtEntry = true,
+        stopAtBeginningOfMainSubprogram = false,
+        args = {},
+      },
+    }
+    dap.configurations.c = dap.configurations.cpp
   end,
 }

@@ -9,10 +9,10 @@ return {
     opts = {
       signs = {
         add = { text = '+' },
-        change = { text = '~' },
+        change = { text = '|' },
         delete = { text = '_' },
         topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        changedelete = { text = '|' },
       },
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
@@ -56,10 +56,11 @@ return {
         map('n', '<leader>gR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
         map('n', '<leader>gp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
         -- Toggles
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
+        map('n', '<leader>gb', gitsigns.toggle_current_line_blame, { desc = 'Toggle [G]it show [b]lame line' })
+
+        -- Adjust the color used for the blame text to be more readable
+        vim.cmd [[highlight GitSignsCurrentLineBlame guifg=#587b7b]]
       end,
     },
   },
 }
--- vim: ts=2 sts=2 sw=2 et
