@@ -59,8 +59,11 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 vim.keymap.set('n', 'Q', '<nop>')
 
-vim.keymap.set('n', '<leader>x', '<cmd>!chmod +x %<CR>', { silent = true })
 vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<CR>', { desc = '[T]ab [C]lose' })
+vim.keymap.set('n', '<leader>tn', '<cmd>tabnew<CR>', { desc = '[T]ab [N]ew' })
+vim.keymap.set('n', '<leader>bc', '<cmd>:bnext<CR><cmd>bd #<CR>', { desc = '[B]uffer [C]lose' })
+vim.keymap.set('n', 'gb', '<cmd>bnext<CR>', { desc = '[G]o to next [B]uffer' })
+vim.keymap.set('n', 'gB', '<cmd>bprev<CR>', { desc = '[G]o to previous [B]uffer' })
 
 -- keep values of registers unchanged with x and X
 vim.keymap.set({ 'n', 'x' }, 'x', '"_x')
