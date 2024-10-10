@@ -39,13 +39,17 @@ return {
               require('nvim-navic').setup { lsp = { auto_attach = true } }
               vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
             end,
-            -- opts = { lsp = { auto_attach = true } },
           },
           'MunifTanjim/nui.nvim',
         },
         config = function()
           require('nvim-navbuddy').setup {
-            lsp = { auto_attach = true },
+            -- lsp = { auto_attach = true },
+            require('lspconfig').clangd.setup {
+              on_attach = function(client, bufnr)
+                require('nvim-navbuddy').attach(client, bufnr)
+              end,
+            },
             window = {
               size = '80%',
               sections = {
