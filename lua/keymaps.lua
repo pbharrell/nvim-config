@@ -61,9 +61,7 @@ vim.keymap.set('n', 'Q', '<nop>')
 
 vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<CR>', { desc = '[T]ab [C]lose' })
 vim.keymap.set('n', '<leader>tn', '<cmd>tabnew<CR>', { desc = '[T]ab [N]ew' })
-vim.keymap.set('n', '<leader>bc', '<cmd>:bnext<CR><cmd>bd #<CR>', { desc = '[B]uffer [C]lose' })
-vim.keymap.set('n', 'gb', '<cmd>bnext<CR>', { desc = '[G]o to next [B]uffer' })
-vim.keymap.set('n', 'gB', '<cmd>bprev<CR>', { desc = '[G]o to previous [B]uffer' })
+vim.keymap.set('n', '<leader>bc', '<cmd>:BufDel #<CR>', { desc = '[B]uffer [C]lose' })
 
 -- keep values of registers unchanged with x and X
 vim.keymap.set({ 'n', 'x' }, 'x', '"_x')
@@ -73,3 +71,13 @@ vim.keymap.set('x', 'p', function()
 end, { remap = false, expr = true })
 
 vim.keymap.set({ 'n', 'x' }, '<leader>v', '<C-w>v')
+
+vim.keymap.set('n', '<leader>og', function()
+  local command = {
+    'open-in-gitiles ',
+    vim.api.nvim_buf_get_name(0),
+    '#',
+    vim.fn.line '.',
+  }
+  os.execute(table.concat(command))
+end)

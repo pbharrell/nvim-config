@@ -14,6 +14,32 @@ return {
   },
   { 'Bilal2453/luvit-meta', lazy = true },
   {
+    'SmiteshP/nvim-navic',
+    lazy = true,
+    init = function()
+      vim.g.navic_silence = true
+      vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local buffer = args.buf ---@type number
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client then
+            if client.supports_method 'textDocument/documentSymbol' then
+              require('nvim-navic').attach(client, buffer)
+            end
+          end
+        end,
+      })
+    end,
+    opts = function()
+      return {
+        highlight = true,
+        lazy_update_context = true,
+        click = true,
+      }
+    end,
+  },
+  {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -33,23 +59,12 @@ return {
       {
         'SmiteshP/nvim-navbuddy',
         dependencies = {
-          {
-            'SmiteshP/nvim-navic',
-            config = function()
-              require('nvim-navic').setup { lsp = { auto_attach = true } }
-              vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
-            end,
-          },
+          'SmiteshP/nvim-navic',
           'MunifTanjim/nui.nvim',
         },
         config = function()
           require('nvim-navbuddy').setup {
-            -- lsp = { auto_attach = true },
-            require('lspconfig').clangd.setup {
-              on_attach = function(client, bufnr)
-                require('nvim-navbuddy').attach(client, bufnr)
-              end,
-            },
+            lsp = { auto_attach = true },
             window = {
               size = '80%',
               sections = {
