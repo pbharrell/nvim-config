@@ -41,14 +41,14 @@ return {
       -- Ran into some issues with `MiniMisc.setup_auto_root()`, so implementing it here
       -- Disable conflicting option
       vim.o.autochdir = false
-      local set_root = function(data)
-        local root = MiniMisc.find_root(data.buf)
+      local set_root = function()
+        local root = MiniMisc.find_root(vim.api.get_current_buf)
         if root == nil then
           return
         end
         vim.fn.chdir(root)
       end
-      vim.api.nvim_create_autocmd('BufEnter', { callback = set_root, desc = 'Find root and change current directory' })
+      vim.keymap.set('n', '<leader>wr', set_root)
     end,
   },
 }

@@ -81,3 +81,5 @@ vim.keymap.set('n', '<leader>og', function()
   }
   os.execute(table.concat(command))
 end)
+
+vim.keymap.set({ 'n', 'v', 'x' }, '2', '$')

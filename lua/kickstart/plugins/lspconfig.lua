@@ -18,7 +18,7 @@ return {
     lazy = true,
     init = function()
       vim.g.navic_silence = true
-      vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+      -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
       vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(args)
           local buffer = args.buf ---@type number

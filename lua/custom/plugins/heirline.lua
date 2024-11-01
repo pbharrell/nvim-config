@@ -1,28 +1,30 @@
 return {
   'rebelot/heirline.nvim',
   config = function()
+    local left_slant = ''
+    local right_slant = ''
     local conditions = require 'heirline.conditions'
     local utils = require 'heirline.utils'
-    --    local colors = {
-    --      bright_bg = utils.get_highlight('Folded').bg,
-    --      bright_fg = utils.get_highlight('Folded').fg,
-    --      red = utils.get_highlight('DiagnosticError').fg,
-    --      dark_red = utils.get_highlight('DiffDelete').bg,
-    --      green = utils.get_highlight('String').fg,
-    --      blue = utils.get_highlight('Function').fg,
-    --      gray = utils.get_highlight('NonText').fg,
-    --      orange = utils.get_highlight('Constant').fg,
-    --      purple = utils.get_highlight('Statement').fg,
-    --      cyan = utils.get_highlight('Special').fg,
-    --      diag_warn = utils.get_highlight('DiagnosticWarn').fg,
-    --      diag_error = utils.get_highlight('DiagnosticError').fg,
-    --      diag_hint = utils.get_highlight('DiagnosticHint').fg,
-    --      diag_info = utils.get_highlight('DiagnosticInfo').fg,
-    --      git_del = utils.get_highlight('diffDeleted').fg,
-    --      git_add = utils.get_highlight('diffAdded').fg,
-    --      git_change = utils.get_highlight('diffChanged').fg,
-    -- }
-    -- require('heirline').load_colors(colors)
+    local colors = {
+      normal_bg = utils.get_highlight('Normal').bg,
+      bright_bg = utils.get_highlight('Folded').bg,
+      bright_fg = utils.get_highlight('Folded').fg,
+      red = utils.get_highlight('DiagnosticError').fg,
+      dark_red = utils.get_highlight('DiffDelete').bg,
+      light_green = utils.get_highlight('String').fg,
+      light_blue = utils.get_highlight('blue').fg,
+      gray = utils.get_highlight('NonText').fg,
+      turquoise = utils.get_highlight('Constant').fg,
+      yellow = utils.get_highlight('Special').fg,
+      diag_warn = utils.get_highlight('DiagnosticWarn').fg,
+      diag_error = utils.get_highlight('DiagnosticError').fg,
+      diag_hint = utils.get_highlight('DiagnosticHint').fg,
+      diag_info = utils.get_highlight('DiagnosticInfo').fg,
+      git_del = utils.get_highlight('diffDeleted').fg,
+      git_add = utils.get_highlight('diffAdded').fg,
+      git_change = utils.get_highlight('diffChanged').fg,
+    }
+    require('heirline').load_colors(colors)
 
     local ViMode = {
       -- get vim current mode, this information will be required by the provider
@@ -73,16 +75,16 @@ return {
         },
         mode_colors = {
           n = 'red',
-          i = 'green',
-          v = 'cyan',
-          V = 'cyan',
-          ['\22'] = 'cyan',
-          c = 'orange',
-          s = 'purple',
-          S = 'purple',
-          ['\19'] = 'purple',
-          R = 'orange',
-          r = 'orange',
+          i = 'light_green',
+          v = 'yellow',
+          V = 'yellow',
+          ['\22'] = 'yellow',
+          c = 'turquoise',
+          s = 'red',
+          S = 'red',
+          ['\19'] = 'red',
+          R = 'turquoise',
+          r = 'turquoise',
           ['!'] = 'red',
           t = 'red',
         },
@@ -95,12 +97,12 @@ return {
       -- control the padding and make sure our string is always at least 2
       -- characters long. Plus a nice Icon.
       provider = function(self)
-        return ' %2(' .. self.mode_names[self.mode] .. '%)'
+        return '%2( 󰅬 ' .. self.mode_names[self.mode] .. '%)'
       end,
       -- Same goes for the highlight. Now the foreground will change according to the current mode.
       hl = function(self)
         local mode = self.mode:sub(1, 1) -- get only the first mode character
-        return { fg = self.mode_colors[mode], bold = true }
+        return { bg = self.mode_colors[mode], fg = 'black', bold = true }
       end,
       -- Re-evaluate the component only on ModeChanged event!
       -- Also allows the statusline to be re-evaluated when entering operator-pending mode
@@ -110,6 +112,13 @@ return {
         callback = vim.schedule_wrap(function()
           vim.cmd 'redrawstatus'
         end),
+      },
+      {
+        provider = '█' .. right_slant,
+        hl = function(self)
+          local mode = self.mode:sub(1, 1) -- get only the first mode character
+          return { fg = self.mode_colors[mode], bg = colors.bright_bg, bold = true }
+        end,
       },
     }
 
@@ -131,7 +140,7 @@ return {
         return self.icon and (self.icon .. ' ')
       end,
       hl = function(self)
-        return { fg = self.icon_color }
+        return { bg = colors.bright_bg, fg = self.icon_color }
       end,
     }
 
@@ -142,7 +151,7 @@ return {
           self.lfilename = '[No Name]'
         end
       end,
-      hl = { fg = utils.get_highlight('Directory').fg },
+      hl = { bg = colors.bright_bg, fg = utils.get_highlight('Directory').fg },
 
       flexible = 2,
 
@@ -164,14 +173,14 @@ return {
           return vim.bo.modified
         end,
         provider = '[+]',
-        hl = { fg = 'green' },
+        hl = { bg = colors.bright_bg, fg = 'light_green' },
       },
       {
         condition = function()
           return not vim.bo.modifiable or vim.bo.readonly
         end,
-        provider = '',
-        hl = { fg = 'orange' },
+        provider = ' ',
+        hl = { bg = colors.bright_bg, fg = 'turquoise' },
       },
     }
 
@@ -184,7 +193,7 @@ return {
       hl = function()
         if vim.bo.modified then
           -- use `force` because we need to override the child's hl foreground
-          return { fg = 'cyan', bold = true, force = true }
+          return { bg = colors.bright_bg, fg = 'yellow', bold = true, force = true }
         end
       end,
     }
@@ -195,14 +204,14 @@ return {
       FileIcon,
       utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
       FileFlags,
-      { provider = '%<' } -- this means that the statusline is cut here when there's not enough space
+      { provider = '%<', hl = { bg = colors.bright_bg } } -- this means that the statusline is cut here when there's not enough space
     )
 
     local FileType = {
       provider = function()
         return string.upper(vim.bo.filetype)
       end,
-      hl = { fg = utils.get_highlight('Type').fg, bold = true },
+      hl = { bg = colors.bright_bg, bold = true },
     }
 
     -- We're getting minimalist here!
@@ -212,6 +221,7 @@ return {
       -- %c = column number
       -- %P = percentage through file of displayed window
       provider = '%7(%l/%3L%):%2c',
+      hl = { bg = colors.bright_bg, fg = utils.get_highlight('Type').fg, bold = true },
     }
 
     local Git = {
@@ -222,57 +232,44 @@ return {
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
       end,
 
-      hl = { fg = 'orange' },
+      hl = { bg = colors.bright_bg, fg = 'light_green' },
 
       { -- git branch name
         provider = function(self)
           return ' ' .. self.status_dict.head
         end,
-        hl = { bold = true },
+        hl = { fg = colors.yellow, bold = true },
       },
       -- You could handle delimiters, icons and counts similar to Diagnostics
       {
-        condition = function(self)
-          return self.has_changes
-        end,
-        provider = '(',
-      },
-      {
         provider = function(self)
           local count = self.status_dict.added or 0
-          return count > 0 and ('+' .. count)
+          return count > 0 and (' +' .. count)
         end,
-        hl = { fg = 'git_add' },
-      },
-      {
-        provider = function(self)
-          local count = self.status_dict.removed or 0
-          return count > 0 and ('-' .. count)
-        end,
-        hl = { fg = 'git_del' },
       },
       {
         provider = function(self)
           local count = self.status_dict.changed or 0
-          return count > 0 and ('~' .. count)
+          return count > 0 and (' ~' .. count)
         end,
         hl = { fg = 'git_change' },
       },
       {
-        condition = function(self)
-          return self.has_changes
+        provider = function(self)
+          local count = self.status_dict.removed or 0
+          return count > 0 and (' -' .. count)
         end,
-        provider = ')',
+        hl = { fg = 'red' },
       },
     }
 
     local WorkDir = {
       init = function(self)
-        self.icon = (vim.fn.haslocaldir(0) == 1 and 'l' or 'g') .. ' ' .. ' '
+        self.icon = ' '
         local cwd = vim.fn.getcwd(0)
         self.cwd = vim.fn.fnamemodify(cwd, ':~')
       end,
-      hl = { fg = 'blue', bold = true },
+      hl = { bg = colors.bright_bg, fg = 'light_blue', bold = true },
 
       flexible = 1,
 
@@ -304,7 +301,7 @@ return {
         local tname, _ = vim.api.nvim_buf_get_name(0):gsub('.*:', '')
         return ' ' .. tname
       end,
-      hl = { fg = 'blue', bold = true },
+      hl = { fg = 'light_blue', bold = true },
     }
 
     local HelpFileName = {
@@ -315,35 +312,101 @@ return {
         local filename = vim.api.nvim_buf_get_name(0)
         return vim.fn.fnamemodify(filename, ':t')
       end,
-      hl = { fg = colors.blue },
+      hl = { fg = '#83C092' },
     }
 
-    vim.opt.showcmdloc = 'statusline'
-    local ShowCmd = {
+    -- The easy way.
+    local Navic = {
       condition = function()
-        return vim.o.cmdheight == 0
+        return require('nvim-navic').is_available()
       end,
-      provider = ':%3.5(%S%)',
+      provider = function()
+        return require('nvim-navic').get_location { highlight = true }
+      end,
+      update = 'CursorMoved',
     }
 
-    local Align = { provider = '%=' }
-    local Space = { provider = ' ' }
+    local Diagnostics = {
 
-    local DefaultStatusline = {
+      condition = conditions.has_diagnostics,
+
+      static = {
+        error_icon = ' ',
+        warn_icon = ' ',
+        info_icon = ' ',
+        hint_icon = '󰌶 ',
+      },
+
+      init = function(self)
+        self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+        self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+        self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
+        self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
+      end,
+
+      update = { 'DiagnosticChanged', 'BufEnter' },
+
+      {
+        provider = function(self)
+          -- 0 is just another output, we can decide to print it or not!
+          return self.errors > 0 and (self.error_icon .. self.errors .. ' ')
+        end,
+        hl = { fg = 'diag_error' },
+      },
+      {
+        provider = function(self)
+          return self.warnings > 0 and (self.warn_icon .. self.warnings .. ' ')
+        end,
+        hl = { fg = 'diag_warn' },
+      },
+      {
+        provider = function(self)
+          return self.info > 0 and (self.info_icon .. self.info .. ' ')
+        end,
+        hl = { fg = 'diag_info' },
+      },
+      {
+        provider = function(self)
+          return self.hints > 0 and (self.hint_icon .. self.hints)
+        end,
+        hl = { fg = 'diag_hint' },
+      },
+    }
+
+    local Align = { provider = '%=', hl = { bg = colors.bright_bg } }
+    local Space = { provider = ' ', hl = { bg = colors.bright_bg } }
+    local FocusEndcap = { provider = ' ', hl = { bg = colors.dark_red } }
+
+    local WinBarSpace = { provider = ' ', hl = { bg = colors.normal_bg } }
+    local WinBarAlign = { provider = '%=', hl = { bg = colors.normal_bg } }
+
+    local StatusLine = {
+      FocusEndcap,
       ViMode,
       Space,
-      FileNameBlock,
-      Space,
       Git,
+      Align,
+      WorkDir,
+      Space,
+      FileNameBlock,
       Align,
       FileType,
       Space,
       Ruler,
+      Space,
+      FocusEndcap,
     }
 
-    local StatusLine = {}
+    local WinBar = {
+      Navic,
+      WinBarAlign,
+      Diagnostics,
+      WinBarSpace,
+    }
+
     require('heirline').setup {
-      statusline = DefaultStatusline,
+      statusline = StatusLine,
+      winbar = WinBar,
     }
   end,
 }
