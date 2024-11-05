@@ -46,7 +46,8 @@ return {
         if root == nil then
           return
         end
-        vim.fn.chdir(root)
+        local new_cwd = root .. '/' .. vim.fn.input('Change working directory to - starting from ' .. root .. '/')
+        vim.fn.chdir(new_cwd)
       end
       vim.keymap.set('n', '<leader>wr', set_root)
     end,

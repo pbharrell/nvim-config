@@ -12,22 +12,7 @@ return {
   cmd = 'Neotree',
   keys = {
     { '<leader>tt', ':Neotree toggle<CR>', desc = 'Neotree [T]oggle', silent = true },
-    { '<leader>to', ':Neotree buffers float reveal<CR>', desc = 'Neotree [O]pen buffers toggle', silent = true },
-    {
-      '<leader>tr',
-      ':Neotree dir=',
-      -- function()
-      --   vim.ui.input({ prompt = 'Enter new Neotree root directory: ' }, function(input)
-      --     if input then
-      --       -- Run the Neotree command with the specified directory
-      --       vim.cmd('Neotree dir=' .. input)
-      --     end
-      --   end)
-      -- end,
-      desc = 'Neotree change root directory',
-    },
-
-    { '<leader>gv', ':Neotree float git_status toggle<CR>', desc = 'Git status [v]iew' },
+    { '<leader>tg', ':Neotree git_status toggle<CR>', desc = 'Git status [v]iew', silent = true },
   },
   opts = {
     filesystem = {

@@ -3,12 +3,8 @@ return {
   branch = '0.2.x',
   config = function()
     require('telescope').load_extension 'smart_open'
-
-    vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {
-      silent = true,
-      desc = '[S]mart [O]pen',
-    })
   end,
+  lazy = true,
   dependencies = {
     'kkharji/sqlite.lua',
     -- Only required if using match_algorithm fzf

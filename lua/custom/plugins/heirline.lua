@@ -269,7 +269,7 @@ return {
         local cwd = vim.fn.getcwd(0)
         self.cwd = vim.fn.fnamemodify(cwd, ':~')
       end,
-      hl = { bg = colors.bright_bg, fg = 'light_blue', bold = true },
+      hl = { bg = colors.normal_bg, fg = 'light_blue', bold = true },
 
       flexible = 1,
 
@@ -386,8 +386,6 @@ return {
       Space,
       Git,
       Align,
-      WorkDir,
-      Space,
       FileNameBlock,
       Align,
       FileType,
@@ -400,6 +398,7 @@ return {
     local WinBar = {
       Navic,
       WinBarAlign,
+      WorkDir,
       Diagnostics,
       WinBarSpace,
     }

@@ -83,3 +83,9 @@ vim.keymap.set('n', '<leader>og', function()
 end)
 
 vim.keymap.set({ 'n', 'v', 'x' }, '2', '$')
+
+-- Need to put smart-open keymap here since it lazy loads
+vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {
+  silent = true,
+  desc = '[S]mart [O]pen',
+})
