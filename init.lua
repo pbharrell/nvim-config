@@ -93,6 +93,10 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+if string.find(vim.loop.os_uname().sysname, 'Windows') and string.find(vim.o.shell, 'sh') then
+  vim.o.shellcmdflag = '-s'
+end
+
 -- [[ Setting options ]]
 require 'options'
 

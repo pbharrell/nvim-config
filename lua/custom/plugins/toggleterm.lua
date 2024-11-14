@@ -4,6 +4,8 @@ return {
   config = function()
     require('toggleterm').setup {
       open_mapping = [[<c-\>]],
+      start_in_insert = true,
+      direction = 'float',
     }
     vim.keymap.set('n', 'th', ':ToggleTerm size=20 direction=horizontal<CR>', { desc = 'Toggle [H]orizontal terminal' })
     vim.keymap.set('n', 'tv', ':ToggleTerm size=60 direction=vertical<CR>', { desc = 'Toggle [V]ertical terminal' })

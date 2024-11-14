@@ -6,13 +6,13 @@ return {
     modes = {
       -- options used when flash is activated through
       -- a regular search with `/` or `?`
-      search = {
-        -- when `true`, flash will be activated during regular search by default.
-        -- You can always toggle when searching with `require("flash").toggle()`
-        enabled = true,
-        highlight = { backdrop = true },
-        jump = { history = true, register = true, nohlsearch = true },
-      },
+      -- search = {
+      --   -- when `true`, flash will be activated during regular search by default.
+      --   -- You can always toggle when searching with `require("flash").toggle()`
+      --   enabled = true,
+      --   highlight = { backdrop = true },
+      --   jump = { history = true, register = true, nohlsearch = true },
+      -- },
       -- options used when flash is activated through
       -- `f`, `F`, `t`, `T`, `;` and `,` motions
       char = {
