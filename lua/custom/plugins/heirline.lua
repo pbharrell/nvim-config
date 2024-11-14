@@ -403,9 +403,31 @@ return {
       WinBarSpace,
     }
 
+    local EmptyWinBar = {
+      WinBarAlign,
+    }
+
+    local normal_buffer = function()
+      return not conditions.buffer_matches {
+        buftype = { 'terminal', 'nofile', 'prompt', 'help', 'quickfix' },
+        filetype = { '^git.*' },
+      }
+    end
+
+    local not_normal_buffer = function()
+      return not normal_buffer
+    end
+
+    vim.api.nvim_set_hl(0, 'WinBar', { bg = 'NONE' })
+    vim.o.laststatus = 3
     require('heirline').setup {
       statusline = StatusLine,
-      winbar = WinBar,
+      winbar = {
+        {
+          condition = normal_buffer,
+          WinBar,
+        },
+      },
     }
   end,
 }
