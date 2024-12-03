@@ -80,7 +80,7 @@ vim.keymap.set('n', '<leader>og', function()
     vim.fn.line '.',
   }
   os.execute(table.concat(command))
-end)
+end, { desc = '[O]pen in [G]itiltes' })
 
 vim.keymap.set({ 'n', 'v', 'x' }, '2', '$')
 
