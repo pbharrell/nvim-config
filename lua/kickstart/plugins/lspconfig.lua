@@ -91,7 +91,7 @@ return {
               },
             },
           }
-          vim.keymap.set('n', '<leader>n', '<cmd>Navbuddy<CR>', { desc = '[N]avbuddy open' })
+          vim.keymap.set('n', '<leader>n', '<cmd>Navbuddy<CR>', { silent = true, desc = '[N]avbuddy open' })
         end,
       },
     },

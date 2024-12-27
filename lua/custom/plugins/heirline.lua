@@ -395,12 +395,18 @@ return {
       FocusEndcap,
     }
 
-    local WinBar = {
+    local ActiveWinBar = {
       Navic,
       WinBarAlign,
       WorkDir,
       Diagnostics,
       WinBarSpace,
+    }
+
+    local InactiveWinBar = {
+      WinBarAlign,
+      FileNameBlock,
+      WinBarAlign,
     }
 
     local EmptyWinBar = {
@@ -424,8 +430,15 @@ return {
       statusline = StatusLine,
       winbar = {
         {
-          condition = normal_buffer,
-          WinBar,
+          condition = conditions.is_not_active,
+          bg = 'NONE',
+          InactiveWinBar,
+        },
+        {
+          condition = function()
+            return conditions.is_active() and normal_buffer()
+          end,
+          ActiveWinBar,
         },
       },
     }

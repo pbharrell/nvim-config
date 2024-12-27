@@ -1,7 +1,6 @@
 return {
   'j-morano/buffer_manager.nvim',
   config = function()
-    local buffer_manager = require 'buffer_manager'
     local buffer_manager_ui = require 'buffer_manager.ui'
 
     vim.keymap.set('n', '<leader>bo', function()
