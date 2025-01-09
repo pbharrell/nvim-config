@@ -82,7 +82,7 @@ vim.keymap.set('n', '<leader>og', function()
   os.execute(table.concat(command))
 end, { desc = '[O]pen in [G]itiltes' })
 
-vim.keymap.set({ 'n', 'v', 'x' }, '2', '$')
+vim.keymap.set({ 'n', 'v', 'x' }, '<leader>2', '$')
 
 -- Need to put smart-open keymap here since it lazy loads
 vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {

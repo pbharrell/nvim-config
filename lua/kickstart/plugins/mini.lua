@@ -42,7 +42,7 @@ return {
         local new_cwd = root .. '/' .. vim.fn.input('Change working directory to - starting from ' .. root .. '/')
         vim.fn.chdir(new_cwd)
       end
-      vim.keymap.set('n', '<leader>wr', set_root)
+      vim.keymap.set('n', '<leader>wr', set_root, { silent = true, desc = 'Update root working directory' })
     end,
   },
 }

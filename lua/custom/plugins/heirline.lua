@@ -207,6 +207,14 @@ return {
       { provider = '%<', hl = { bg = colors.bright_bg } } -- this means that the statusline is cut here when there's not enough space
     )
 
+    InactiveFileNameBlock = utils.insert(
+      FileNameBlock,
+      FileIcon,
+      utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
+      FileFlags,
+      { provider = '%<', hl = { bg = colors.normal_bg } } -- this means that the statusline is cut here when there's not enough space
+    )
+
     local FileType = {
       provider = function()
         return string.upper(vim.bo.filetype)
@@ -222,6 +230,12 @@ return {
       -- %P = percentage through file of displayed window
       provider = '%7(%l/%3L%):%2c',
       hl = { bg = colors.bright_bg, fg = utils.get_highlight('Type').fg, bold = true },
+    }
+
+    local Search = {
+      condition = require('noice').api.status.search.has,
+      provider = require('noice').api.status.search.get,
+      hl = { bg = colors.bright_bg, fg = colors.red },
     }
 
     local Git = {
@@ -375,6 +389,11 @@ return {
 
     local Align = { provider = '%=', hl = { bg = colors.bright_bg } }
     local Space = { provider = ' ', hl = { bg = colors.bright_bg } }
+    local SearchSpace = {
+      condition = require('noice').api.status.search.has,
+      provider = '  ',
+      hl = { bg = colors.bright_bg },
+    }
     local FocusEndcap = { provider = ' ', hl = { bg = colors.dark_red } }
 
     local WinBarSpace = { provider = ' ', hl = { bg = colors.normal_bg } }
@@ -392,6 +411,9 @@ return {
       Space,
       Ruler,
       Space,
+      SearchSpace,
+      Search,
+      SearchSpace,
       FocusEndcap,
     }
 
@@ -405,7 +427,7 @@ return {
 
     local InactiveWinBar = {
       WinBarAlign,
-      FileNameBlock,
+      InactiveFileNameBlock,
       WinBarAlign,
     }
 

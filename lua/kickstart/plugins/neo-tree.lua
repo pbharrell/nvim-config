@@ -13,6 +13,7 @@ return {
   keys = {
     { '<leader>tt', ':Neotree toggle<CR>', desc = 'Neotree [T]oggle', silent = true },
     { '<leader>tg', ':Neotree git_status toggle<CR>', desc = 'Git status [v]iew', silent = true },
+    { '<leader>p', ':Neotree toggle position=current<CR>', desc = 'Neotree [E]xplore', silent = true },
   },
   opts = {
     filesystem = {
