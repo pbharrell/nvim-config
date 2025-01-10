@@ -207,14 +207,6 @@ return {
       { provider = '%<', hl = { bg = colors.bright_bg } } -- this means that the statusline is cut here when there's not enough space
     )
 
-    InactiveFileNameBlock = utils.insert(
-      FileNameBlock,
-      FileIcon,
-      utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
-      FileFlags,
-      { provider = '%<', hl = { bg = colors.normal_bg } } -- this means that the statusline is cut here when there's not enough space
-    )
-
     local FileType = {
       provider = function()
         return string.upper(vim.bo.filetype)
@@ -427,7 +419,7 @@ return {
 
     local InactiveWinBar = {
       WinBarAlign,
-      InactiveFileNameBlock,
+      FileNameBlock,
       WinBarAlign,
     }
 

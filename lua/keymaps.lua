@@ -48,8 +48,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- vim: ts=2 sts=2 sw=2 et
 
 -- ** Start custom keymaps **
-vim.keymap.set('n', '<leader>p', vim.cmd.Ex, { desc = '[p] Explore' })
-
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
@@ -89,3 +87,6 @@ vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {
   silent = true,
   desc = '[S]mart [O]pen',
 })
+
+vim.keymap.set('n', 'gn', 'gt', { desc = '[G]o to [N]ext tab' })
+vim.keymap.set('n', 'gp', 'gT', { desc = '[G]o to [P]rev tab' })
