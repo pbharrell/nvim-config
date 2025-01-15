@@ -421,6 +421,7 @@ return {
       WinBarAlign,
       FileNameBlock,
       WinBarAlign,
+      hl = { bg = colors.normal_bg, force = true },
     }
 
     local EmptyWinBar = {
@@ -428,10 +429,15 @@ return {
     }
 
     local normal_buffer = function()
-      return not conditions.buffer_matches {
-        buftype = { 'terminal', 'nofile', 'prompt', 'help', 'quickfix' },
-        filetype = { '^git.*' },
-      }
+      normal_buf = true
+      for _, abnormal_buftype in pairs { 'acwrite', 'help', 'nofile', 'nowrite', 'quickfix', 'terminal', 'prompt' } do
+        normal_buf = normal_buf and not (vim.bo.buftype == abnormal_buftype)
+      end
+
+      for _, abnormal_filetype in pairs { '^git.*', 'TELESCERESULTS', 'NEO-TREE' } do
+        normal_buf = normal_buf and not (vim.bo.filetype == abnormal_filetype)
+      end
+      return normal_buf
     end
 
     local not_normal_buffer = function()
@@ -444,8 +450,9 @@ return {
       statusline = StatusLine,
       winbar = {
         {
-          condition = conditions.is_not_active,
-          bg = 'NONE',
+          condition = function()
+            return conditions.is_not_active() and normal_buffer() -- vim.bo.buftype ~= 'nofile'
+          end,
           InactiveWinBar,
         },
         {
