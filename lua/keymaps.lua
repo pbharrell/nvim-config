@@ -54,6 +54,10 @@ vim.keymap.set('n', '<leader>tn', '<cmd>tabnew<CR>', { desc = '[T]ab [N]ew' })
 -- keep values of registers unchanged with x and X
 vim.keymap.set({ 'n', 'x' }, 'x', '"_x')
 vim.keymap.set({ 'n', 'x' }, 'X', '"_dd')
+
+-- keep values of registers unchanged with c
+vim.keymap.set({ 'n', 'x' }, 'c', '"_c')
+
 vim.keymap.set('x', 'p', function()
   return 'pgv"' .. vim.v.register .. 'y'
 end, { remap = false, expr = true })
