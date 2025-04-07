@@ -3,6 +3,6 @@ return {
   event = 'VeryLazy',
   opts = {
     screensaver = 1000 * 60 * 15,
-    theme = 'snow',
+    theme = 'matrix',
   },
 }
