@@ -379,11 +379,39 @@ return {
       },
     }
 
+    local GrappleTagged = {
+      provider = function()
+        return '󰛢[' .. require('grapple').name_or_index() .. ']'
+      end,
+      condition = function()
+        return require('grapple').name_or_index() ~= nil
+      end,
+      hl = { bg = colors.bright_bg, fg = colors.light_blue },
+    }
+
+    local RecordingStatus = {
+      provider = require('noice').api.statusline.mode.get,
+      condition = require('noice').api.statusline.mode.has,
+      hl = { bg = colors.bright_bg, fg = colors.red },
+    }
+
     local Align = { provider = '%=', hl = { bg = colors.bright_bg } }
     local Space = { provider = ' ', hl = { bg = colors.bright_bg } }
     local SearchSpace = {
       condition = require('noice').api.status.search.has,
-      provider = '  ',
+      provider = ' ',
+      hl = { bg = colors.bright_bg },
+    }
+    local GrappleTaggedSpace = {
+      condition = function()
+        return require('grapple').name_or_index() ~= nil
+      end,
+      provider = ' ',
+      hl = { bg = colors.bright_bg },
+    }
+    local RecordingSpace = {
+      condition = require('noice').api.status.mode.has,
+      provider = ' ',
       hl = { bg = colors.bright_bg },
     }
     local FocusEndcap = { provider = ' ', hl = { bg = colors.dark_red } }
@@ -399,6 +427,8 @@ return {
       Align,
       FileNameBlock,
       Align,
+      RecordingStatus,
+      RecordingSpace,
       FileType,
       Space,
       Ruler,
@@ -410,14 +440,16 @@ return {
     }
 
     local ActiveWinBar = {
+      GrappleTagged,
+      GrappleTaggedSpace,
       Navic,
       WinBarAlign,
       WorkDir,
-      Diagnostics,
-      WinBarSpace,
+      hl = { bg = colors.normal_bg, force = true },
     }
 
     local InactiveWinBar = {
+      GrappleTagged,
       WinBarAlign,
       FileNameBlock,
       WinBarAlign,

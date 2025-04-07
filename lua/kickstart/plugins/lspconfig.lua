@@ -66,13 +66,13 @@ return {
           require('nvim-navbuddy').setup {
             lsp = { auto_attach = true },
             window = {
-              size = '80%',
+              size = '90%',
               sections = {
                 left = {
-                  size = '20%',
+                  size = '18%',
                 },
                 mid = {
-                  size = '20%',
+                  size = '22%',
                 },
                 right = {
                   preview = 'always',
