@@ -64,7 +64,7 @@ end, { remap = false, expr = true })
 
 vim.keymap.set({ 'n', 'x' }, '<leader>v', '<C-w>v')
 
-vim.keymap.set('n', '<leader>og', function()
+vim.keymap.set('n', '<leader>go', function()
   local command = {
     'open-in-gitiles ',
     vim.api.nvim_buf_get_name(0),
@@ -84,3 +84,6 @@ vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {
 
 vim.keymap.set('n', 'gn', 'gt', { desc = '[G]o to [N]ext tab' })
 vim.keymap.set('n', 'gp', 'gT', { desc = '[G]o to [P]rev tab' })
+
+vim.keymap.set('n', '<leader>o', '<cmd>bprev<cr>', { desc = 'Cycle prev buffer' })
+vim.keymap.set('n', '<leader>i', '<cmd>bnext<cr>', { desc = 'Cycle next buffer' })

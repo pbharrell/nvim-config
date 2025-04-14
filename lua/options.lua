@@ -68,3 +68,14 @@ vim.opt.scrolloff = 10
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
+
+-- Set up spell-check and other git commit features
+vim.api.nvim_create_augroup('GitCommitGroup', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+  group = 'GitCommitGroup',
+  pattern = 'gitcommit',
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.colorcolumn:append { '51', '73' }
+  end,
+})
