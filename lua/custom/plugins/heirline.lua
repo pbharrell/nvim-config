@@ -275,7 +275,7 @@ return {
         local cwd = vim.fn.getcwd(0)
         self.cwd = vim.fn.fnamemodify(cwd, ':~')
       end,
-      hl = { bg = colors.normal_bg, fg = 'light_blue', bold = true },
+      hl = { bg = colors.bright_bg, fg = 'light_blue', bold = true },
 
       flexible = 1,
 
@@ -329,7 +329,10 @@ return {
       provider = function()
         return require('nvim-navic').get_location { highlight = true }
       end,
-      update = 'CursorMoved',
+      update = {
+        'CursorMoved',
+        'CursorHold',
+      },
     }
 
     local Diagnostics = {
@@ -425,7 +428,7 @@ return {
       Space,
       Git,
       Align,
-      FileNameBlock,
+      WorkDir,
       Align,
       RecordingStatus,
       RecordingSpace,
@@ -442,17 +445,17 @@ return {
     local ActiveWinBar = {
       GrappleTagged,
       GrappleTaggedSpace,
-      Navic,
+      FileNameBlock,
       WinBarAlign,
-      WorkDir,
+      Navic,
       hl = { bg = colors.normal_bg, force = true },
     }
 
     local InactiveWinBar = {
       GrappleTagged,
-      WinBarAlign,
       FileNameBlock,
       WinBarAlign,
+      -- WinBarAlign,
       hl = { bg = colors.normal_bg, force = true },
     }
 
