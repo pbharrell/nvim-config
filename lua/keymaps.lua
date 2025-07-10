@@ -87,3 +87,5 @@ vim.keymap.set('n', 'gp', 'gT', { desc = '[G]o to [P]rev tab' })
 
 vim.keymap.set('n', '<leader>o', '<cmd>bprev<cr>', { desc = 'Cycle prev buffer' })
 vim.keymap.set('n', '<leader>i', '<cmd>bnext<cr>', { desc = 'Cycle next buffer' })
+
+vim.keymap.set('n', '<leader>ssw', ':set shiftwidth=', { desc = 'Set shiftwidth' })
