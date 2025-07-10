@@ -105,10 +105,11 @@ return {
     -- C/C++ debugger setup
     -- Source: https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(gdb-via--vscode-cpptools)
     -- I have found poor debug speed when using this one in WSL, using gdb instead
+    -- https://alighorab.github.io/neovim/nvim-dap/ <-- this explains the process for installing OpenDebugAD7
     dap.adapters.cppdbg = {
       id = 'cppdbg',
       type = 'executable',
-      command = '/home/harrellpresto/.vscode-server/extensions/ms-vscode.cpptools-1.23.5-linux-x64/debugAdapters/bin/OpenDebugAD7',
+      command = '/home/harrellpresto/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
     }
     dap.adapters.gdb = {
       type = 'executable',
