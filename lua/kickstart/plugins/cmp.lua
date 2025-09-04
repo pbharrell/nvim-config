@@ -26,6 +26,28 @@ return {
           --   end,
           -- },
         },
+        event = 'InsertEnter',
+        config = function()
+          local ls = require 'luasnip'
+          ls.setup {
+            update_events = { 'TextChanged', 'TextChangedI' },
+            enable_autosnippets = true,
+            store_selection_keys = '<Tab>',
+          }
+
+          -- In your LuaSnip config function:
+          local snippets = require 'snippets'
+          for filetype, snippet_list in pairs(snippets) do
+            ls.add_snippets(filetype, snippet_list)
+          end
+
+          vim.keymap.set({ 'i', 's' }, '<C-L>', function()
+            ls.jump(1)
+          end, { silent = true })
+          vim.keymap.set({ 'i', 's' }, '<C-H>', function()
+            ls.jump(-1)
+          end, { silent = true })
+        end,
       },
       'saadparwaiz1/cmp_luasnip',
 
