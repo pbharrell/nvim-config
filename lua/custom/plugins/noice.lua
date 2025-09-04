@@ -33,6 +33,9 @@ return {
       messages = {
         view_search = false,
       },
+      notify = {
+        enabled = false,
+      },
     },
     vim.keymap.set('n', '<leader>ch', '<cmd>Noice<CR>', { silent = true, desc = '[C]ode warning [H]istory' }),
   },
