@@ -69,6 +69,16 @@ require('lazy').setup({
   --   end,
   -- },
   { import = 'custom.plugins' },
+  {
+    dir = '~/.config/nvim/local-plugins/neogen',
+    name = 'pbharrell-neogen',
+    config = function()
+      require('neogen').setup { snippet_engine = 'luasnip' }
+      vim.keymap.set('n', '<leader>d', function()
+        require('neogen').generate()
+      end)
+    end,
+  },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
