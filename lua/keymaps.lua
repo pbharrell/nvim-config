@@ -85,7 +85,9 @@ vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {
 vim.keymap.set('n', 'gn', 'gt', { desc = '[G]o to [N]ext tab' })
 vim.keymap.set('n', 'gp', 'gT', { desc = '[G]o to [P]rev tab' })
 
-vim.keymap.set('n', '<leader>o', '<cmd>bprev<cr>', { desc = 'Cycle prev buffer' })
-vim.keymap.set('n', '<leader>i', '<cmd>bnext<cr>', { desc = 'Cycle next buffer' })
+vim.keymap.set('n', '<leader>o', '<cmd>bprev<CR>', { desc = 'Cycle prev buffer' })
+vim.keymap.set('n', '<leader>i', '<cmd>bnext<CR>', { desc = 'Cycle next buffer' })
 
 vim.keymap.set('n', '<leader>ssw', ':set shiftwidth=', { desc = 'Set shiftwidth' })
+
+vim.keymap.set('n', '<leader>w', '<cmd>wa<CR>', { desc = 'Save all' })
