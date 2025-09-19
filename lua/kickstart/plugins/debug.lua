@@ -12,10 +12,22 @@ return {
   -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
-    'rcarriga/nvim-dap-ui',
+    'igorlfs/nvim-dap-view',
 
     -- Required dependency for nvim-dap-ui
     'nvim-neotest/nvim-nio',
+
+    -- Required dependency for neotest (redundant but ensures proper order)
+    'nvim-treesitter/nvim-treesitter',
+
+    -- Dependency for Neotest
+    'antoinemadec/FixCursorHold.nvim',
+
+    -- Gtest adapter for neotest
+    'alfaix/neotest-gtest',
+
+    -- Neotest
+    'nvim-neotest/neotest',
 
     -- Installs the debug adapters for you
     'williamboman/mason.nvim',
@@ -26,7 +38,6 @@ return {
   },
   keys = function(_, keys)
     local dap = require 'dap'
-    local dapui = require 'dapui'
     return {
       -- Basic debugging keymaps, feel free to change to your liking!
       { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
@@ -42,13 +53,13 @@ return {
         desc = 'Debug: Set Breakpoint',
       },
       -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-      { '<F7>', dapui.toggle, desc = 'Debug: See last session result.' },
+      { '<F7>', require('dap-view').toggle, desc = 'Debug: See last session result.' },
       unpack(keys),
     }
   end,
   config = function()
     local dap = require 'dap'
-    local dapui = require 'dapui'
+    local neotest = require 'neotest'
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -67,31 +78,7 @@ return {
       },
     }
 
-    -- Dap UI setup
-    -- For more information, see |:help nvim-dap-ui|
-    dapui.setup {
-      -- Set icons to characters that are more likely to work in every terminal.
-      --    Feel free to remove or use ones that you like more! :)
-      --    Don't feel like these are good choices.
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-      controls = {
-        icons = {
-          pause = '⏸',
-          play = '▶',
-          step_into = '⏎',
-          step_over = '⏭',
-          step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
-          terminate = '⏹',
-          disconnect = '⏏',
-        },
-      },
-    }
-
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-    dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-    dap.listeners.before.event_exited['dapui_config'] = dapui.close
+    require('dap-view').setup {}
 
     -- Install golang specific config (Kickstart.nvim default)
     require('dap-go').setup {
@@ -101,6 +88,30 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    neotest.setup {
+      adapters = {
+        require('neotest-gtest').setup {
+          debug_adapter = 'cppdbg',
+          dap = { justMyCode = false },
+          is_test_file = function(file)
+            return string.find(file, '_tests.cpp')
+          end,
+        },
+      },
+    }
+
+    vim.keymap.set('n', '<leader>r', neotest.summary.toggle, { desc = 'Toggle test summary panel' })
+    vim.keymap.set('n', '<leader>rc', '<cmd>ConfigureGtest<CR>', { desc = 'Configure tests' })
+    vim.keymap.set('n', '<leader>ro', neotest.output_panel.toggle, { desc = 'Toggle test output panel' })
+    vim.keymap.set('n', '<leader>rr', neotest.run.run, { desc = 'Run current test' })
+    vim.keymap.set('n', '<leader>rf', function()
+      neotest.run.run(vim.fn.expand '%')
+    end, { desc = 'Run current test file' })
+    vim.keymap.set('n', '<leader>rd', function()
+      neotest.run.run { strategy = 'dap' }
+    end, { desc = 'Debug current test' })
+    vim.keymap.set('n', '<leader>rs', neotest.run.stop, { desc = 'Stop running tests' })
 
     -- C/C++ debugger setup
     -- Source: https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(gdb-via--vscode-cpptools)
