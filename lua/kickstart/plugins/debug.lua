@@ -95,7 +95,7 @@ return {
           debug_adapter = 'cppdbg',
           dap = { justMyCode = false },
           is_test_file = function(file)
-            return string.find(file, '_tests.cpp')
+            return string.find(file, '_test.cpp') or string.find(file, '_tests.cpp') or string.find(file, 'Test.cpp') or string.find(file, 'Tests.cpp')
           end,
         },
       },
