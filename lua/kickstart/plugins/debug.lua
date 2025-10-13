@@ -53,7 +53,6 @@ return {
         desc = 'Debug: Set Breakpoint',
       },
       -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-      { '<F7>', require('dap-view').toggle, desc = 'Debug: See last session result.' },
       unpack(keys),
     }
   end,
@@ -79,6 +78,7 @@ return {
     }
 
     require('dap-view').setup {}
+    vim.keymap.set('n', '<F7>', require('dap-view').toggle, { desc = 'Debug: See last session result.' })
 
     -- Install golang specific config (Kickstart.nvim default)
     require('dap-go').setup {
