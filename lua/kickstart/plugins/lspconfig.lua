@@ -24,6 +24,11 @@ return {
           local buffer = args.buf ---@type number
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           if client then
+            if client and client.name == 'clangd' then
+              client.server_capabilities.inactiveRegionsProvider = false
+              client.server_capabilities.semanticTokensProvider = false
+            end
+
             if client.supports_method 'textDocument/documentSymbol' then
               require('nvim-navic').attach(client, buffer)
             end
