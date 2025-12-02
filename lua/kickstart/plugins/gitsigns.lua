@@ -40,6 +40,15 @@ return {
           end
         end, { desc = 'Jump to previous git [c]hange' })
 
+        -- Navigate staged hunks
+        map('n', ']s', function()
+          gitsigns.nav_hunk('next', { target = 'staged' })
+        end, { desc = 'Jump to next [s]taged hunk' })
+
+        map('n', '[s', function()
+          gitsigns.nav_hunk('prev', { target = 'staged' })
+        end, { desc = 'Jump to previous [s]taged hunk' })
+
         -- Actions
         -- visual mode
         map('v', '<leader>gs', function()
@@ -54,7 +63,7 @@ return {
         map('n', '<leader>gS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
         map('n', '<leader>gu', gitsigns.undo_stage_hunk, { desc = 'git [u]ndo stage hunk' })
         map('n', '<leader>gR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
-        map('n', '<leader>gp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
+        map('n', '<leader>gp', gitsigns.preview_hunk_inline, { desc = 'git [p]review hunk' })
         -- Toggles
         map('n', '<leader>gb', gitsigns.toggle_current_line_blame, { desc = 'Toggle [G]it show [b]lame line' })
 

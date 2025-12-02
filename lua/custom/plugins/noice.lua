@@ -1,6 +1,5 @@
 return {
   'folke/noice.nvim',
-  event = 'VimEnter',
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
     'MunifTanjim/nui.nvim',
@@ -39,4 +38,5 @@ return {
   config = {
     vim.keymap.set('n', '<leader>ch', '<cmd>Noice<CR>', { silent = true, desc = '[C]ode warning [H]istory' }),
   },
+  vim.keymap.set('n', '<leader>ch', '<cmd>Noice<CR>', { silent = true, desc = '[C]ode warning [H]istory' }),
 }
