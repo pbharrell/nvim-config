@@ -382,15 +382,15 @@ return {
       },
     }
 
-    local GrappleTagged = {
-      provider = function()
-        return '󰛢[' .. require('grapple').name_or_index() .. ']'
-      end,
-      condition = function()
-        return require('grapple').name_or_index() ~= nil
-      end,
-      hl = { bg = colors.bright_bg, fg = colors.light_blue },
-    }
+    -- local GrappleTagged = {
+    --   provider = function()
+    --     return '󰛢[' .. require('grapple').name_or_index() .. ']'
+    --   end,
+    --   condition = function()
+    --     return require('grapple').name_or_index() ~= nil
+    --   end,
+    --   hl = { bg = colors.bright_bg, fg = colors.light_blue },
+    -- }
 
     local RecordingStatus = {
       provider = require('noice').api.statusline.mode.get,
@@ -405,13 +405,13 @@ return {
       provider = ' ',
       hl = { bg = colors.bright_bg },
     }
-    local GrappleTaggedSpace = {
-      condition = function()
-        return require('grapple').name_or_index() ~= nil
-      end,
-      provider = ' ',
-      hl = { bg = colors.bright_bg },
-    }
+    -- local GrappleTaggedSpace = {
+    --   condition = function()
+    --     return require('grapple').name_or_index() ~= nil
+    --   end,
+    --   provider = ' ',
+    --   hl = { bg = colors.bright_bg },
+    -- }
     local RecordingSpace = {
       condition = require('noice').api.status.mode.has,
       provider = ' ',
@@ -443,8 +443,8 @@ return {
     }
 
     local ActiveWinBar = {
-      GrappleTagged,
-      GrappleTaggedSpace,
+      -- GrappleTagged,
+      -- GrappleTaggedSpace,
       FileNameBlock,
       WinBarAlign,
       Navic,
@@ -452,7 +452,7 @@ return {
     }
 
     local InactiveWinBar = {
-      GrappleTagged,
+      -- GrappleTagged,
       FileNameBlock,
       WinBarAlign,
       -- WinBarAlign,

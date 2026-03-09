@@ -11,6 +11,6 @@ return {
       follow_symlinks = false,
     }
 
-    vim.keymap.set('n', '<leader>sd', '<cmd>Telescope dir live_grep<CR>', { desc = '[S]earch [D]irectory' })
+    -- vim.keymap.set('n', '<leader>sd', '<cmd>Telescope dir live_grep<CR>', { desc = '[S]earch [D]irectory' })
   end,
 }

@@ -76,12 +76,6 @@ end, { desc = '[O]pen in [G]itiltes' })
 
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>2', '$')
 
--- Need to put smart-open keymap here since it lazy loads
-vim.keymap.set('n', '<leader>so', '<cmd>:Telescope smart_open<CR>', {
-  silent = true,
-  desc = '[S]mart [O]pen',
-})
-
 vim.keymap.set('n', 'gn', 'gt', { desc = '[G]o to [N]ext tab' })
 vim.keymap.set('n', 'gp', 'gT', { desc = '[G]o to [P]rev tab' })
 
