@@ -89,7 +89,6 @@ return {
       follow_tab = true,
       windows = {
         terminal = {
-          width = 0.5,
           position = 'right',
         },
       },
@@ -106,33 +105,8 @@ return {
       },
     }
 
-    neotest.setup {
-      adapters = {
-        require('neotest-gtest').setup {
-          debug_adapter = 'cppdbg',
-          dap = { justMyCode = false },
-          is_test_file = function(file)
-            return string.find(file, '_test.cpp') or string.find(file, '_tests.cpp') or string.find(file, 'Test.cpp') or string.find(file, 'Tests.cpp')
-          end,
-        },
-      },
-    }
-
-    vim.keymap.set('n', '<leader>r', neotest.summary.toggle, { desc = 'Toggle test summary panel' })
-    vim.keymap.set('n', '<leader>rc', '<cmd>ConfigureGtest<CR>', { desc = 'Configure tests' })
-    vim.keymap.set('n', '<leader>ro', neotest.output_panel.toggle, { desc = 'Toggle test output panel' })
-    vim.keymap.set('n', '<leader>rr', neotest.run.run, { desc = 'Run current test' })
-    vim.keymap.set('n', '<leader>rf', function()
-      neotest.run.run(vim.fn.expand '%')
-    end, { desc = 'Run current test file' })
-    vim.keymap.set('n', '<leader>rd', function()
-      neotest.run.run { strategy = 'dap' }
-    end, { desc = 'Debug current test' })
-    vim.keymap.set('n', '<leader>rs', neotest.run.stop, { desc = 'Stop running tests' })
-
     -- C/C++ debugger setup
     -- Source: https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(gdb-via--vscode-cpptools)
-    -- I have found poor debug speed when using this one in WSL, using gdb instead
     -- https://alighorab.github.io/neovim/nvim-dap/ <-- this explains the process for installing OpenDebugAD7
     dap.adapters.cppdbg = {
       id = 'cppdbg',
@@ -159,5 +133,29 @@ return {
       },
     }
     dap.configurations.c = dap.configurations.cpp
+
+    neotest.setup {
+      adapters = {
+        require('neotest-gtest').setup {
+          debug_adapter = 'cppdbg',
+          dap = { justMyCode = false },
+          is_test_file = function(file)
+            return string.find(file, '_test.cpp') or string.find(file, '_tests.cpp') or string.find(file, 'Test.cpp') or string.find(file, 'Tests.cpp')
+          end,
+        },
+      },
+    }
+
+    vim.keymap.set('n', '<leader>r', neotest.summary.toggle, { desc = 'Toggle test summary panel' })
+    vim.keymap.set('n', '<leader>rc', '<cmd>ConfigureGtest<CR>', { desc = 'Configure tests' })
+    vim.keymap.set('n', '<leader>ro', neotest.output_panel.toggle, { desc = 'Toggle test output panel' })
+    vim.keymap.set('n', '<leader>rr', neotest.run.run, { desc = 'Run current test' })
+    vim.keymap.set('n', '<leader>rf', function()
+      neotest.run.run(vim.fn.expand '%')
+    end, { desc = 'Run current test file' })
+    vim.keymap.set('n', '<leader>rd', function()
+      neotest.run.run { strategy = 'dap' }
+    end, { desc = 'Debug current test' })
+    vim.keymap.set('n', '<leader>rs', neotest.run.stop, { desc = 'Stop running tests' })
   end,
 }
