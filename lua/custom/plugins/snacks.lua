@@ -70,7 +70,7 @@ return {
       function()
         require('snacks').notifier.show_history()
       end,
-      desc = 'Notification Hisotry',
+      desc = 'Notification History',
     },
     {
       '<leader>z',
@@ -108,13 +108,21 @@ return {
       '<leader>sw',
       mode = { 'n' },
       function()
+        require('snacks').picker.grep_word()
+      end,
+      desc = '[S]earch current [W]ord',
+    },
+    {
+      '<leader>sq',
+      mode = { 'n' },
+      function()
         require('snacks').picker.grep_word {
           search = function()
             return vim.fn.getreg()
           end,
         }
       end,
-      desc = '[S]earch current [W]ord',
+      desc = '[S]earch [Q]lipboard',
     },
     {
       '<leader>sh',
