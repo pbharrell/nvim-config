@@ -28,7 +28,6 @@ return {
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
 
-      require('mini.starter').setup()
       require('mini.misc').setup()
 
       -- Ran into some issues with `MiniMisc.setup_auto_root()`, so implementing it here
