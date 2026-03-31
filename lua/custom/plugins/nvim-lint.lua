@@ -8,6 +8,10 @@ return {
       c = { 'codespell', 'cppcheck'},
     }
 
+    local cppcheck_build_dir = vim.fn.stdpath 'cache' .. '/cppcheck'
+    vim.fn.mkdir(cppcheck_build_dir, 'p')
+    table.insert(lint.linters.cppcheck.args, '--cppcheck-build-dir=' .. cppcheck_build_dir)
+
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
