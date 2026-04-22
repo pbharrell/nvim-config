@@ -76,5 +76,7 @@ return {
         end)
       end,
     })
+
+    vim.o.sessionoptions = 'blank,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
   end,
 }
