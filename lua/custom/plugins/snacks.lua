@@ -133,7 +133,7 @@ return {
       '<leader>sf',
       mode = { 'n' },
       function()
-        require('snacks').picker.smart()
+        require('snacks').picker.smart { multi = { 'buffers', 'files' }, formatters = { file = { truncate = 'left' } } }
       end,
       desc = '[S]earch [F]iles',
     },
@@ -141,15 +141,29 @@ return {
       '<leader>sg',
       mode = { 'n' },
       function()
-        require('snacks').picker.grep()
+        require('snacks').picker.grep { formatters = { file = { truncate = 'left' } } }
       end,
       desc = '[S]earch by [G]rep',
+    },
+    {
+      '<leader>sv',
+      mode = { 'n' },
+      function()
+        require('snacks').picker.grep {
+          interactive = false,
+          auto_close = false,
+          jump = { close = false },
+          preview = 'main',
+          layout = { preset = 'left' },
+        }
+      end,
+      desc = '[S]earch by grep [V]ertical split',
     },
     {
       '<leader>sw',
       mode = { 'n' },
       function()
-        require('snacks').picker.grep_word()
+        require('snacks').picker.grep_word { formatters = { file = { truncate = 'left' } } }
       end,
       desc = '[S]earch current [W]ord',
     },
@@ -161,6 +175,7 @@ return {
           search = function()
             return vim.fn.getreg()
           end,
+          formatters = { file = { truncate = 'left' } },
         }
       end,
       desc = '[S]earch [Q]lipboard',
@@ -177,7 +192,7 @@ return {
       '<leader>sk',
       mode = { 'n' },
       function()
-        require('snacks').picker.keymaps()
+        require('snacks').picker.keymaps { formatters = { file = { truncate = 'left' } } }
       end,
       desc = '[S]earch [K]eymaps',
     },
@@ -209,7 +224,7 @@ return {
       '<leader>sc',
       mode = { 'n' },
       function()
-        require('snacks').picker.git_diff()
+        require('snacks').picker.git_diff { formatters = { file = { truncate = 'left' } } }
       end,
       desc = '[S]earch Git [C]hanges',
     },
@@ -240,7 +255,7 @@ return {
             if item then
               -- Keep cwd as neovim's cwd so grep results show paths relative to it,
               -- but restrict the search to the chosen subdirectory via dirs.
-              Snacks.picker.grep { cwd = cwd, dirs = { item._abs } }
+              Snacks.picker.grep { cwd = cwd, dirs = { item._abs }, formatters = { file = { truncate = 'left' } } }
             end
           end,
         }
@@ -268,21 +283,21 @@ return {
     {
       'gd',
       function()
-        Snacks.picker.lsp_definitions()
+        Snacks.picker.lsp_definitions { formatters = { file = { truncate = 'left' } } }
       end,
       desc = 'Goto Definition',
     },
     {
       'gD',
       function()
-        Snacks.picker.lsp_declarations()
+        Snacks.picker.lsp_declarations { formatters = { file = { truncate = 'left' } } }
       end,
       desc = 'Goto Declaration',
     },
     {
       'gr',
       function()
-        Snacks.picker.lsp_references()
+        Snacks.picker.lsp_references { formatters = { file = { truncate = 'left' } } }
       end,
       nowait = true,
       desc = 'References',
@@ -290,7 +305,7 @@ return {
     {
       'gI',
       function()
-        Snacks.picker.lsp_implementations()
+        Snacks.picker.lsp_implementations { formatters = { file = { truncate = 'left' } } }
       end,
       desc = 'Goto Implementation',
     },
