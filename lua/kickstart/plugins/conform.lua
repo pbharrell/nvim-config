@@ -18,6 +18,8 @@ return {
       format_on_save = false,
       formatters_by_ft = {
         lua = { 'stylua' },
+        c = { 'clang_format' },
+        cpp = { 'clang_format' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -25,8 +27,8 @@ return {
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
       formatters = {
-        clangd = {
-          command = '~/.local/bin/special-clang-format',
+        clang_format = {
+          prepend_args = { '--style=file', '--fallback-style=none' },
         },
       },
     },
