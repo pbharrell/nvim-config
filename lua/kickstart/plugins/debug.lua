@@ -30,7 +30,11 @@ return {
     'nvim-neotest/neotest',
 
     -- Installs the debug adapters for you
-    'williamboman/mason.nvim',
+    {
+      'williamboman/mason.nvim',
+      config = true,
+    },
+
     'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
@@ -79,8 +83,8 @@ return {
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'cppdbg',
       },
     }
 
@@ -105,19 +109,6 @@ return {
       },
     }
 
-    -- C/C++ debugger setup
-    -- Source: https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(gdb-via--vscode-cpptools)
-    -- https://alighorab.github.io/neovim/nvim-dap/ <-- this explains the process for installing OpenDebugAD7
-    dap.adapters.cppdbg = {
-      id = 'cppdbg',
-      type = 'executable',
-      command = '/home/harrellpresto/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
-    }
-    dap.adapters.gdb = {
-      type = 'executable',
-      command = 'gdb',
-      args = { '--interpreter=dap', '--eval-command', 'set print pretty on' },
-    }
     dap.configurations.cpp = {
       {
         name = 'Launch file',

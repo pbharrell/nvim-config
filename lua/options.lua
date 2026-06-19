@@ -79,3 +79,17 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.colorcolumn:append { '51', '73' }
   end,
 })
+
+
+-- Disable built-in treesitter for markdown (parser ABI incompatibility with nvim 0.12.2)
+-- vim.schedule ensures this runs after all other FileType handlers (e.g. rainbow-delimiters)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'markdown', 'markdown_inline' },
+  callback = function(ev)
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(ev.buf) then
+        vim.treesitter.stop(ev.buf)
+      end
+    end)
+  end,
+})
