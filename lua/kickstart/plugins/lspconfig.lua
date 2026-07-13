@@ -217,8 +217,43 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      -- clangd reports errors caused by a header (e.g. an undeclared macro
+      -- coming from an #include) as a diagnostic whose message is prefixed
+      -- with "In included file:". Filter those out so only diagnostics that
+      -- truly belong to the open file are shown, inline and in quickfix.
+      local function is_from_included_file(diagnostic)
+        if diagnostic.message and diagnostic.message:lower():find('in included file:', 1, true) then
+          return true
+        end
+        for _, info in ipairs(diagnostic.relatedInformation or {}) do
+          if info.message and info.message:lower():find('in included file:', 1, true) then
+            return true
+          end
+        end
+        return false
+      end
+
       local servers = {
-        -- clangd = {},
+        clangd = {
+          -- This clangd server does not advertise pull-diagnostics support
+          -- (diagnosticProvider capability is absent), so Neovim never calls
+          -- "textDocument/diagnostic" automatically -- diagnostics arrive via
+          -- the classic push notification "textDocument/publishDiagnostics"
+          -- instead. Filter there.
+          handlers = {
+            ['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+              local filtered_diagnostics = {}
+              for _, diagnostic in ipairs(result.diagnostics) do
+                if not is_from_included_file(diagnostic) then
+                  table.insert(filtered_diagnostics, diagnostic)
+                end
+              end
+              result.diagnostics = filtered_diagnostics
+
+              vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+            end,
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -263,18 +298,14 @@ return {
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      require('mason-lspconfig').setup {
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
-      }
+      require('mason-lspconfig').setup()
+
+      -- Apply our overrides via vim.lsp.config() instead, which merges into
+      -- whatever config mason-lspconfig registers for each server.
+      for server_name, server in pairs(servers) do
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        vim.lsp.config(server_name, server)
+      end
     end,
   },
 }
