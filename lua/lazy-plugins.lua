@@ -26,6 +26,8 @@ require('lazy').setup({
 
   require 'kickstart/plugins/mini',
 
+  require 'kickstart/plugins/treesitter',
+
   require 'kickstart.plugins.debug',
 
   require 'kickstart.plugins.indent_line',
