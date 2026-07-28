@@ -298,6 +298,7 @@ return {
         'clangd',
         'delve',
         'marksman',
+        'gopls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
