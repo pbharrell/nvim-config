@@ -85,3 +85,6 @@ vim.keymap.set('n', '<leader>i', '<cmd>bnext<CR>', { desc = 'Cycle next buffer' 
 vim.keymap.set('n', '<leader>ssw', ':set shiftwidth=', { desc = 'Set shiftwidth' })
 
 vim.keymap.set('n', '<leader>w', '<cmd>wa<CR>', { desc = 'Save all' })
+
+vim.keymap.set('n', 'k', 'g<Up>', { desc = 'Move up one display line' })
+vim.keymap.set('n', 'j', 'g<Down>', { desc = 'Move down one display line' })
