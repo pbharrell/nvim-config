@@ -9,7 +9,6 @@ return {
     local hl = utils.get_highlight('DiagnosticError').fg
     local fg_hex = string.format('#%06x', hl)
     local hl_str = 'guibg=' .. fg_hex
-    vim.notify(hl_str, 'info')
     vim.cmd.highlight { 'ScrollView', hl_str }
   end,
 }

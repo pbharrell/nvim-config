@@ -1,6 +1,8 @@
 return {
   'folke/todo-comments.nvim',
-  optional = true,
+  lazy = false,
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  opts = { signs = false },
   keys = {
     {
       '<leader>st',
