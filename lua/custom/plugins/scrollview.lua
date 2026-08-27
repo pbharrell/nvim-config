@@ -1,5 +1,6 @@
 return {
   'dstein64/nvim-scrollview',
+  event = 'VeryLazy',
   config = function()
     require('scrollview').setup {
       signs_on_startup = { 'diagnostics', 'conflicts', 'search' },

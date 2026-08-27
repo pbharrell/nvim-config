@@ -243,6 +243,14 @@ return {
       desc = 'Resume previous picker',
     },
     {
+      '<leader>bo',
+      mode = { 'n' },
+      function()
+        require('snacks').picker.buffers()
+      end,
+      desc = '[B]uffers [O]pen',
+    },
+    {
       '<leader>/',
       mode = { 'n' },
       function()

@@ -1,5 +1,6 @@
 return {
   'rebelot/heirline.nvim',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
     local left_slant = ''
     local right_slant = ''
@@ -381,16 +382,6 @@ return {
         hl = { fg = 'diag_hint' },
       },
     }
-
-    -- local GrappleTagged = {
-    --   provider = function()
-    --     return '󰛢[' .. require('grapple').name_or_index() .. ']'
-    --   end,
-    --   condition = function()
-    --     return require('grapple').name_or_index() ~= nil
-    --   end,
-    --   hl = { bg = colors.bright_bg, fg = colors.light_blue },
-    -- }
 
     local RecordingStatus = {
       provider = require('noice').api.statusline.mode.get,

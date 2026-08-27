@@ -14,8 +14,6 @@ require('lazy').setup({
 
   require 'kickstart/plugins/which-key',
 
-  require 'kickstart/plugins/telescope',
-
   require 'kickstart/plugins/lspconfig',
 
   require 'kickstart/plugins/conform',
@@ -27,10 +25,6 @@ require('lazy').setup({
   require 'kickstart/plugins/treesitter',
 
   require 'kickstart.plugins.debug',
-
-  require 'kickstart.plugins.indent_line',
-
-  require 'kickstart.plugins.neo-tree',
 
   { import = 'custom.plugins' },
 }, {
