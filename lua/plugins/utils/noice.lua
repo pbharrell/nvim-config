@@ -35,8 +35,7 @@ return {
       enabled = false,
     },
   },
-  config = {
-    vim.keymap.set('n', '<leader>ch', '<cmd>Noice<CR>', { silent = true, desc = '[C]ode warning [H]istory' }),
+  keys = {
+    { '<leader>ch', '<cmd>Noice<CR>', silent = true, desc = '[C]ode warning [H]istory' },
   },
-  vim.keymap.set('n', '<leader>ch', '<cmd>Noice<CR>', { silent = true, desc = '[C]ode warning [H]istory' }),
 }
