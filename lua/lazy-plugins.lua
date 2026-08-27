@@ -1,32 +1,7 @@
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  require 'kickstart/plugins/gitsigns',
-
-  require 'kickstart/plugins/which-key',
-
-  require 'kickstart/plugins/lspconfig',
-
-  require 'kickstart/plugins/conform',
-
-  require 'kickstart/plugins/cmp',
-
-  require 'kickstart/plugins/mini',
-
-  require 'kickstart/plugins/treesitter',
-
-  require 'kickstart.plugins.debug',
-
-  { import = 'custom.plugins' },
+  { import = 'plugins.lsp' },
+  { import = 'plugins.utils' },
+  { import = 'plugins.features' },
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
