@@ -4,11 +4,16 @@ return {
   lazy = false,
   build = ':TSUpdate',
   config = function()
-    require('nvim-treesitter').setup()
-    require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python' },
-      auto_install = true,
-      highlight = { enable = true },
-    }
+    local treesitter = require 'nvim-treesitter'
+
+    treesitter.setup()
+    treesitter.install { 'c', 'cpp', 'go', 'lua', 'python' }
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { 'c', 'cpp', 'go', 'lua', 'python' },
+      callback = function()
+        vim.treesitter.start()
+      end,
+    })
   end,
 }
