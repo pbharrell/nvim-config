@@ -3,7 +3,7 @@ return {
   event = 'VeryLazy',
   config = function()
     require('scrollview').setup {
-      signs_on_startup = { 'diagnostics', 'conflicts', 'search' },
+      signs_on_startup = { 'diagnostics', 'conflicts' },
     }
     vim.g.scrollview_winblend_gui = 70
     local utils = require 'heirline.utils'
