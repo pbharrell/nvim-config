@@ -23,15 +23,13 @@ local conds_expand = require 'luasnip.extras.conditions.expand'
 return {
   cpp = {
     s(
-      '/**',
+      'static_cast<l',
       fmta(
         [[
-        some text woww <val>
-        <val1>
+        static_cast<<long long unsigned int>>(<val>)
         ]],
         {
           val = i(1),
-          val1 = i(2),
         }
       )
     ),
