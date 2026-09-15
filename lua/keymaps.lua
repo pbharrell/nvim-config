@@ -35,6 +35,7 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Shift line up', silent = 
 
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
+vim.keymap.set('n', '*', '*N', { remap = false, desc = 'Highlight word under cursor' })
 
 vim.keymap.set('n', 'Q', '@@', { desc = 'Repeat last macro' })
 
