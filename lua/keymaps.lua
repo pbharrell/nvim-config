@@ -68,6 +68,35 @@ vim.keymap.set('n', '*', function()
   end)
 end, { desc = 'Highlight word under cursor' })
 
+vim.keymap.set('v', '*', function()
+  local view = vim.fn.winsaveview()
+  local selected = vim.fn.getregion(vim.fn.getpos '.', vim.fn.getpos 'v', { type = vim.fn.mode() })
+  local pattern = table.concat(
+    vim.tbl_map(function(line)
+      return vim.fn.escape(line, [[\]])
+    end, selected),
+    [[\n]]
+  )
+
+  if pattern == '' then
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'nx', false)
+    return
+  end
+
+  pattern = '\\V' .. pattern
+  vim.fn.setreg('/', pattern)
+  vim.fn.histadd('/', pattern)
+  vim.v.searchforward = 1
+  vim.opt.hlsearch = true
+
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'nx', false)
+  vim.fn.winrestview(view)
+
+  vim.schedule(function()
+    vim.cmd 'redrawstatus'
+  end)
+end, { desc = 'Highlight selected text' })
+
 vim.keymap.set('n', 'Q', '@@', { desc = 'Repeat last macro' })
 
 vim.keymap.set('n', '<leader>tc', '<cmd>tabclose<CR>', { desc = '[T]ab [C]lose' })
