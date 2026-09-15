@@ -37,15 +37,42 @@ vim.api.nvim_create_autocmd('DiagnosticChanged', {
   callback = function(args)
     vim.schedule(function()
       for _, winid in ipairs(vim.api.nvim_list_wins()) do
-        local loclist = vim.fn.getloclist(winid, { filewinid = 0, winid = 0 })
+        local winnr = vim.fn.win_id2win(winid)
+        local loclist = vim.fn.getloclist(winnr, { filewinid = 0, winid = 0, idx = 0 })
         if
           loclist.winid ~= 0
           and vim.api.nvim_win_is_valid(loclist.winid)
           and vim.api.nvim_win_is_valid(loclist.filewinid)
           and vim.api.nvim_win_get_buf(loclist.filewinid) == args.buf
         then
+          local previous_index = loclist.idx
+          local previous_item = vim.fn.getloclist(winnr, { items = true }).items[previous_index]
           local items = vim.diagnostic.toqflist(vim.diagnostic.get(args.buf))
-          vim.fn.setloclist(loclist.filewinid, items, 'r')
+          local selected_index
+          local best_distance
+          for i, item in ipairs(items) do
+            if
+              previous_item
+              and item.type == previous_item.type
+              and item.text == previous_item.text
+            then
+              local distance = math.abs(item.lnum - previous_item.lnum) * 100000 + math.abs(item.col - previous_item.col)
+              if not best_distance or distance < best_distance then
+                best_distance = distance
+                selected_index = i
+              end
+            end
+          end
+
+          if #items > 0 then
+            local file_winnr = vim.fn.win_id2win(loclist.filewinid)
+            vim.fn.setloclist(file_winnr, items, 'r')
+            vim.fn.setloclist(file_winnr, {}, 'a', {
+              idx = selected_index or math.min(previous_index, #items),
+            })
+          else
+            vim.fn.setloclist(vim.fn.win_id2win(loclist.filewinid), items, 'r')
+          end
           break
         end
       end
@@ -67,11 +94,33 @@ vim.keymap.set('n', '<leader>k', '<C-w><C-k>', { desc = 'Move focus to the upper
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
+-- vim.api.nvim_create_autocmd('TextYankPost', {
+--   desc = 'Highlight when yanking (copying) text',
+--   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+--   callback = function()
+--     local t = vim.uv.hrtime()
+--     vim.highlight.on_yank()
+--     print((vim.uv.hrtime() - t) / 1e9 .. 's')
+--   end,
+-- })
+
+local yank_started
+
+vim.keymap.set({ 'n', 'x' }, 'y', function()
+  yank_started = vim.uv.hrtime()
+  return 'y'
+end, { expr = true, desc = 'Timed yank' })
+
 vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  group = vim.api.nvim_create_augroup('diagnose-yank', { clear = true }),
   callback = function()
+    local event_time = vim.uv.hrtime()
     vim.highlight.on_yank()
+
+    vim.schedule(function()
+      local resumed_time = vim.uv.hrtime()
+      print(('before event: %.3fs; after event: %.3fs'):format(yank_started and (event_time - yank_started) / 1e9 or -1, (resumed_time - event_time) / 1e9))
+    end)
   end,
 })
 
@@ -81,7 +130,14 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Shift line up', silent = 
 
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
-vim.keymap.set('n', '*', '*N', { remap = false, desc = 'Highlight word under cursor' })
+vim.keymap.set('n', '*', function()
+  local view = vim.fn.winsaveview()
+  vim.cmd 'keepjumps normal! *'
+  vim.fn.winrestview(view)
+  vim.schedule(function()
+    vim.cmd 'redrawstatus'
+  end)
+end, { desc = 'Highlight word under cursor' })
 
 vim.keymap.set('n', 'Q', '@@', { desc = 'Repeat last macro' })
 
