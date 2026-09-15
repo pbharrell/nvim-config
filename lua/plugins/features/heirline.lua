@@ -110,9 +110,6 @@ return {
       update = {
         'ModeChanged',
         pattern = '*:*',
-        callback = vim.schedule_wrap(function()
-          vim.cmd 'redrawstatus'
-        end),
       },
       {
         provider = '█' .. right_slant,
@@ -225,9 +222,14 @@ return {
       hl = { bg = colors.bright_bg, fg = utils.get_highlight('Type').fg, bold = true },
     }
 
+    local search_status = require('noice').api.status.search
+    local search_status_active = function()
+      return vim.v.hlsearch == 1 and search_status.has()
+    end
+
     local Search = {
-      condition = require('noice').api.status.search.has,
-      provider = require('noice').api.status.search.get,
+      condition = search_status_active,
+      provider = search_status.get,
       hl = { bg = colors.bright_bg, fg = colors.red },
     }
 
@@ -392,7 +394,7 @@ return {
     local Align = { provider = '%=', hl = { bg = colors.bright_bg } }
     local Space = { provider = ' ', hl = { bg = colors.bright_bg } }
     local SearchSpace = {
-      condition = require('noice').api.status.search.has,
+      condition = search_status_active,
       provider = ' ',
       hl = { bg = colors.bright_bg },
     }
@@ -489,5 +491,18 @@ return {
         },
       },
     }
+
+    vim.api.nvim_create_autocmd('ModeChanged', {
+      pattern = '*',
+      callback = function()
+        require('heirline').statusline:broadcast(function(component)
+          component._win_cache = nil
+        end)
+        vim.schedule(function()
+          vim.cmd 'redrawstatus!'
+        end)
+      end,
+      desc = 'Refresh Heirline mode',
+    })
   end,
 }
