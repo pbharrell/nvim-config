@@ -11,7 +11,48 @@ vim.keymap.set('n', '<Esc>', function()
 end)
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>q', function()
+  vim.diagnostic.setloclist { open = false }
+
+  local loclist = vim.fn.getloclist(0, { items = true })
+  local bufnr = vim.api.nvim_get_current_buf()
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  local index
+
+  for i, item in ipairs(loclist.items) do
+    if item.bufnr == bufnr and item.lnum == lnum then
+      index = i
+      break
+    end
+  end
+
+  if index then
+    vim.fn.setloclist(0, {}, 'r', { items = loclist.items, idx = index })
+  end
+
+  vim.cmd 'lopen'
+end, { desc = 'Open diagnostic [Q]uickfix list' })
+
+vim.api.nvim_create_autocmd('DiagnosticChanged', {
+  callback = function(args)
+    vim.schedule(function()
+      for _, winid in ipairs(vim.api.nvim_list_wins()) do
+        local loclist = vim.fn.getloclist(winid, { filewinid = 0, winid = 0 })
+        if
+          loclist.winid ~= 0
+          and vim.api.nvim_win_is_valid(loclist.winid)
+          and vim.api.nvim_win_is_valid(loclist.filewinid)
+          and vim.api.nvim_win_get_buf(loclist.filewinid) == args.buf
+        then
+          local items = vim.diagnostic.toqflist(vim.diagnostic.get(args.buf))
+          vim.fn.setloclist(loclist.filewinid, items, 'r')
+          break
+        end
+      end
+    end)
+  end,
+  desc = 'Update open diagnostic location list',
+})
 
 -- Keybinds to make split navigation easier.
 --  See `:help wincmd` for a list of all window commands
