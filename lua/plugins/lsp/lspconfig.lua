@@ -84,17 +84,6 @@ return {
                 },
               },
             },
-            mappings = {
-              ['t'] = require('nvim-navbuddy.actions').telescope { -- Fuzzy finder at current level.
-                layout_config = { -- All options that can be
-                  height = 0.80, -- passed to telescope.nvim's
-                  width = 0.80, -- default can be passed here.
-                  prompt_position = 'bottom',
-                  preview_width = 0.60,
-                },
-                layout_strategy = 'horizontal',
-              },
-            },
           }
           vim.keymap.set('n', '<leader>n', '<cmd>Navbuddy<CR>', { silent = true, desc = '[N]avbuddy open' })
         end,
