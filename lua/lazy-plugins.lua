@@ -1,11 +1,4 @@
 require('lazy').setup({
-  {
-    dir = '/home/harrellpresto/dev/smart-quickfix',
-    name = 'smart-quickfix.nvim',
-    config = function()
-      require('smart-quickfix').setup()
-    end,
-  },
   { import = 'plugins.lsp' },
   { import = 'plugins.utils' },
   { import = 'plugins.features' },
